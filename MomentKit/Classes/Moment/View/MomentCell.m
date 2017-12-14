@@ -196,35 +196,31 @@ CGFloat maxLimitHeight = 0;
     }
     _deleteBtn.frame = CGRectMake(_timeLab.right + 25, _timeLab.top, 50, kTimeLabelH);
     bottom = _timeLab.bottom + kPaddingValue;
+    
+    // 处理评论/赞
+    self.tableView.frame = CGRectZero;
+    self.bgImageView.frame = CGRectZero;
+    self.bgImageView.image = nil;
+    self.tableView.tableHeaderView = nil;
     // 处理赞
-    self.likeLabel.frame = CGRectZero;
-    self.likeLabel.attributedText = nil;
-    BOOL needReload = NO;
     if (moment.praiseNameList.length) {
-        needReload = YES;
         self.likeLabel.attributedText = kMLLinkLabelAttributedText(moment.praiseNameList);
         CGSize attrStrSize = [self.likeLabel preferredSizeWithMaxWidth:kTextWidth];
-        self.tableHeadView.frame = CGRectMake(0, 0, self.width, attrStrSize.height + 15);
+        self.tableHeadView.frame = CGRectMake(0, 0, kComWidth, attrStrSize.height + 15);
         self.likeLabel.frame = CGRectMake(5, 8, attrStrSize.width, attrStrSize.height);
         self.line.top = self.likeLabel.bottom + 7;
         self.tableView.tableHeaderView = self.tableHeadView;
     }
     // 处理评论
     if ([moment.commentList count]) {
-        needReload = YES;
-    }
-    if (needReload) {
         [self.tableView reloadData];
-        // 更新UI
-        self.tableView.frame = CGRectZero;
-        self.bgImageView.frame = CGRectZero;
-        self.bgImageView.image = nil;
-        CGFloat contentHeight = self.tableView.contentSize.height;
-        if (contentHeight > 0) {
-            self.bgImageView.frame = CGRectMake(_nameLab.left, bottom, kWidth-kRightMargin-_nameLab.left, contentHeight + kArrowHeight);
-            self.bgImageView.image = [[UIImage imageNamed:@"comment_bg"] stretchableImageWithLeftCapWidth:40 topCapHeight:30];
-            self.tableView.frame = CGRectMake(_nameLab.left, bottom + kArrowHeight, kWidth-kRightMargin-_nameLab.left, contentHeight);
-        }
+    }
+    // 更新UI
+    CGFloat contentHeight = self.tableView.contentSize.height;
+    if (contentHeight > 0) {
+        self.bgImageView.frame = CGRectMake(_nameLab.left, bottom, kWidth-kRightMargin-_nameLab.left, contentHeight + kArrowHeight);
+        self.bgImageView.image = [[UIImage imageNamed:@"comment_bg"] stretchableImageWithLeftCapWidth:40 topCapHeight:30];
+        self.tableView.frame = CGRectMake(_nameLab.left, bottom + kArrowHeight, kWidth-kRightMargin-_nameLab.left, contentHeight);
     }
 }
 
@@ -274,6 +270,9 @@ CGFloat maxLimitHeight = 0;
     for (Comment *com in moment.commentList) {
         addH = kArrowHeight;
         height += [CommentCell commentCellHeightForMoment:com];
+    }
+    if (addH == 0) {
+        height -= kPaddingValue;
     }
     height += kBlank + addH;
     return height;
