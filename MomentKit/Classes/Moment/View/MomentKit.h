@@ -6,23 +6,43 @@
 //  Copyright © 2017年 LEA. All rights reserved.
 //
 
-#define kFaceWidth          40      //头像视图的宽、高
-#define kOptionHeight       21      //操作视图的高度
-#define kNameLabelH         20      //名字视图高度
-#define kTimeLabelH         15      //时间视图高度
-#define kBlank              15      //顶部和底部的留白
-
-//文字区
-#define kTextFont           [UIFont systemFontOfSize:15.0]      //正文字体
-#define kTextWidth          (kWidth-60-25)                      //内容视图宽度
-#define kComTextFont        [UIFont systemFontOfSize:14.0]      //评论字体
-#define kComHLTextFont      [UIFont boldSystemFontOfSize:14.0]  //评论高亮字体
-#define kHLTextColor        RGBColor(80.0, 100.0, 150.0, 1.0)
-
-//图片区
-#define kImagePadding       5                                   //图片间距
-#define kImageWidth         (kTextWidth-kImagePadding*2)/3      //图片宽度
-
-//更多
-#define kMoreLabHeight      18                                  //更多内容高度
-#define kPaddingValue       8                                   //视图之间的间距
+// 头像视图的宽、高
+#define kFaceWidth          40
+// 操作视图的高度
+#define kOptionHeight       20
+// 名字视图高度
+#define kNameLabelH         20
+// 时间视图高度
+#define kTimeLabelH         15
+// 顶部和底部的留白
+#define kBlank              15
+// 右侧留白
+#define kRightMargin        15
+// 正文字体
+#define kTextFont           [UIFont systemFontOfSize:15.0]
+// 内容视图宽度
+#define kTextWidth          (kWidth-60-25)
+// 评论视图宽度
+#define kComWidth           (kWidth-60-15)
+// 评论字体
+#define kComTextFont        [UIFont systemFontOfSize:14.0]
+// 评论高亮字体
+#define kComHLTextFont      [UIFont boldSystemFontOfSize:14.0]
+// 主色调高亮颜色
+#define kHLTextColor        [UIColor colorWithRed:0.31 green:0.39 blue:0.59 alpha:1.0]
+// 正文高亮颜色
+#define kLinkTextColor      [UIColor colorWithRed:0.09 green:0.49 blue:0.99 alpha:1.0]
+// 按住背景颜色
+#define kHLBgColor          [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1.0]
+// 图片间距
+#define kImagePadding       5
+// 图片宽度
+#define kImageWidth         (kTextWidth-kImagePadding*2)/3
+// 全文/收起按钮高度
+#define kMoreLabHeight      20
+// 全文/收起按钮宽度
+#define kMoreLabWidth       60
+// 视图之间的间距
+#define kPaddingValue       8
+// 评论赞视图气泡的尖尖高度
+#define kArrowHeight        5

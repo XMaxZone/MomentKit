@@ -19,26 +19,8 @@
 #import "NSAttributedString+MLExpression.h"
 
 
-#pragma mark - ######## 颜色 ##########
 
-#define RGBColor(r,g,b,a)           ([UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a])
-#define VIEW_BG_COLOR               RGBColor(240, 239, 245, 1.0)
-
-#pragma mark - ###### 物理尺寸 #########
-
-#define kWidth                      [UIScreen mainScreen].bounds.size.width
-#define kHeight                     [UIScreen mainScreen].bounds.size.height
-
-#pragma mark - ### 状态栏+导航栏 高度 ####
-
-#define STATUS_HEIGHT               [[UIApplication sharedApplication] statusBarFrame].size.height
-#define NAV_HEIGHT                  self.navigationController.navigationBar.height
-#define TOP_BAR_HEIGHT              (STATUS_HEIGHT + NAV_HEIGHT)
-
-
-#pragma mark - ### 绝对路径 ####
-#define SSLAVAILABLE                @"NO"
-#define HTTPHEADER                  ([SSLAVAILABLE boolValue]?@"https://":@"http://")
-#define kWebBaseUrl                 @"dadong.smartcityos.com/"
-#define API_BASE_URL(_URL_)         [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",[NSString stringWithFormat:@"%@%@",HTTPHEADER,kWebBaseUrl],_URL_]]
-#define API_BASE_STR(_string_)      [[NSString stringWithFormat:@"%@%@",HTTPHEADER,kWebBaseUrl] stringByAppendingString:_string_]
+// 屏幕物理尺寸宽度
+#define kWidth              [UIScreen mainScreen].bounds.size.width
+// 屏幕物理尺寸高度
+#define kHeight             [UIScreen mainScreen].bounds.size.height

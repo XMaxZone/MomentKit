@@ -1,20 +1,58 @@
 //
-//  MMScrollView.m
+//  MMImagePreviewView.m
 //  MomentKit
 //
-//  Created by LEA on 2017/12/12.
+//  Created by LEA on 2017/12/14.
 //  Copyright © 2017年 LEA. All rights reserved.
 //
 
-#import "MMScrollView.h"
+#import "MMImagePreviewView.h"
 
-@interface MMScrollView () <UIScrollViewDelegate>
+#pragma mark - ------------------ 点击预览时的承载视图 ------------------
+@implementation MMImagePreviewView
 
-@property (nonatomic,strong) UIImageView *imageView;
-@property (nonatomic,assign) CGRect originRect;
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+        self.userInteractionEnabled = YES;
+        // 添加子视图
+        _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+        _scrollView.delegate = self;
+        _scrollView.pagingEnabled = YES;
+        _scrollView.scrollEnabled = YES;
+        _scrollView.userInteractionEnabled = YES;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+        _scrollView.showsVerticalScrollIndicator = NO;
+        [self addSubview:_scrollView];
+        // 页面控制
+        _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.height-40, kWidth, 20)];
+        _pageControl.pageIndicatorTintColor = [UIColor grayColor];
+        _pageControl.currentPageIndicatorTintColor = [UIColor whiteColor];
+        [self addSubview:_pageControl];
+    }
+    return self;
+}
+
+#pragma mark - Setter
+- (void)setPageNum:(NSInteger)pageNum
+{
+    _pageNum = pageNum;
+    _pageControl.numberOfPages = pageNum;
+}
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    _pageIndex = scrollView.contentOffset.x / self.width;
+    _pageControl.currentPage = _pageIndex;
+}
 
 @end
 
+#pragma mark - ------------------ 单个大图显示视图 ------------------
 @implementation MMScrollView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -22,31 +60,31 @@
     self = [super initWithFrame:frame];
     if (self)
     {
+        self.backgroundColor = [UIColor clearColor];
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
-        self.bouncesZoom = YES;
-        self.backgroundColor = [UIColor clearColor];
-        self.delegate = self;
-        self.minimumZoomScale = 1.0;
         self.userInteractionEnabled = YES;
-        //显示的图片
+        self.minimumZoomScale = 1.0;
+        self.bouncesZoom = YES;
+        self.delegate = self;
+        // 显示的图片
         [self addSubview:self.imageView];
-        //双击
+        // 双击
         UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapGestureCallback:)];
         doubleTap.numberOfTapsRequired = 2;
         [self addGestureRecognizer:doubleTap];
-        //单击
+        // 单击
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapGestureCallback:)];
         [singleTap requireGestureRecognizerToFail:doubleTap];
         [self addGestureRecognizer:singleTap];
-        //长按
+        // 长按
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressGestureCallback:)];
         [self addGestureRecognizer:longPress];
     }
     return self;
 }
 
-#pragma mark - getter
+#pragma mark - Getter
 - (UIImageView *)imageView
 {
     if (!_imageView) {
@@ -59,7 +97,7 @@
     return _imageView;
 }
 
-#pragma mark - setter
+#pragma mark - Setter
 - (void)setImage:(UIImage *)image
 {
     self.imageView.image = image;
@@ -93,10 +131,9 @@
         _originRect = (CGRect){0,self.frame.size.height/2-imgViewHeight/2,self.frame.size.width,imgViewHeight};
         self.zoomScale = 1.0;
     }
-    [UIView animateWithDuration:0.4
-                     animations:^{
-                         self.imageView.frame = _originRect;
-                     }];
+    [UIView animateWithDuration:0.4 animations:^{
+        self.imageView.frame = _originRect;
+    }];
 }
 
 #pragma mark - 手势处理
@@ -116,17 +153,19 @@
 
 - (void)singleTapGestureCallback:(UITapGestureRecognizer *)gesture
 {
-    if ([self.pDelegate respondsToSelector:@selector(didClickPicture:)]) {
-        [self.pDelegate didClickPicture:self];
+    if (self.tapBigView) {
+        self.tapBigView(self);
     }
 }
 
 - (void)longPressGestureCallback:(UILongPressGestureRecognizer *)gesture
 {
-    
+    if (self.longPressBigView) {
+        self.longPressBigView(self);
+    }
 }
 
-#pragma mark - scroll delegate
+#pragma mark - UIScrollViewDelegate
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
     return self.imageView;

@@ -8,7 +8,33 @@
 
 #import "MMRefreshHeadView.h"
 
-static const CGFloat LIMITY = -50.f;
+//### 头部刷新视图基类
+NSString *const MMRefreshObserveKeyPath = @"contentOffset";
+@implementation MMRefreshBaseView
+
+- (void)setScrollView:(UIScrollView *)scrollView
+{
+    _scrollView = scrollView;
+    [_scrollView.superview addSubview:self];
+    [scrollView addObserver:self forKeyPath:MMRefreshObserveKeyPath options:NSKeyValueObservingOptionNew context:nil];
+}
+
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    if (!newSuperview) {
+        [_scrollView removeObserver:self forKeyPath:MMRefreshObserveKeyPath];
+    }
+}
+
+- (void)endRefreshing
+{
+    [self setRefreshState:MMRefreshHeadViewStateNormal];
+}
+
+@end
+
+//### 头部刷新视图
+static const CGFloat limitY = -50.f;
 NSString *const MMAnimationForKey = @"RotateAnimationKey";
 
 @interface MMRefreshHeadView ()
@@ -61,8 +87,8 @@ NSString *const MMAnimationForKey = @"RotateAnimationKey";
 {
     CGFloat rotateValue = offsetY / 50.0 * M_PI;
     
-    if (offsetY < LIMITY) {
-        offsetY = LIMITY;
+    if (offsetY < limitY) {
+        offsetY = limitY;
         
         if (self.scrollView.isDragging && self.refreshState != MMRefreshHeadViewStateWillRefresh) {
             self.refreshState = MMRefreshHeadViewStateWillRefresh;

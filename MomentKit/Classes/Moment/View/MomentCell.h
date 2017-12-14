@@ -2,45 +2,53 @@
 //  MomentCell.h
 //  MomentKit
 //
-//  Created by LEA on 2017/12/12.
+//  Created by LEA on 2017/12/14.
 //  Copyright © 2017年 LEA. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "CommentView.h"
-#import "MomentView.h"
+#import "MMImageListView.h"
 #import "Moment.h"
+#import "Comment.h"
+
+//#### 动态
 
 @protocol MomentCellDelegate;
-@interface MomentCell : UITableViewCell <MomentViewDelgate>
+@interface MomentCell : UITableViewCell <UITableViewDelegate,UITableViewDataSource,MLLinkLabelDelegate>
 
-//头像
+// 头像
 @property (nonatomic, strong) UIImageView *headImageView;
-//名称
+// 名称
 @property (nonatomic, strong) UILabel *nameLab;
-//内容
-@property (nonatomic, strong) MLLinkLabel *textLab;
-//时间
+// 时间
 @property (nonatomic, strong) UILabel *timeLab;
-//位置
+// 位置
 @property (nonatomic, strong) UILabel *locationLab;
-//时间
+// 时间
 @property (nonatomic, strong) UIButton *deleteBtn;
-//赞/评论
-@property (nonatomic, strong) UIButton *arrowBtn;
-//显示赞和评论的视图
+// 全文
+@property (nonatomic, strong) UIButton *showAllBtn;
+// 内容
+@property (nonatomic, strong) MLLinkLabel *linkLabel;
+// 图片
+@property (nonatomic, strong) MMImageListView *imageListView;
+// 显示赞和评论的视图
 @property (nonatomic, strong) UITableView *tableView;
-//正文
-@property (nonatomic, strong) MomentView *momentView;
-//赞和评论
-@property (nonatomic, strong) CommentView *commentView;
+// 赞和评论视图背景
+@property (nonatomic,strong) UIImageView *bgImageView;
+// 表格头
+@property (nonatomic,strong) UIView *tableHeadView;
+// 赞
+@property (nonatomic,strong) MLLinkLabel *likeLabel;
+// 分割线
+@property (nonatomic,strong) UIView *line;
 
-//动态
+// 动态
 @property (nonatomic, strong) Moment *moment;
-//代理
+// 代理
 @property (nonatomic, assign) id<MomentCellDelegate> delegate;
 
-//获取行高
+// 获取行高
 + (CGFloat)momentCellHeightForMoment:(Moment *)moment;
 
 @end
@@ -49,15 +57,35 @@
 
 @optional
 
-//赞
+// 点击用户头像
+- (void)didClickHead:(MomentCell *)cell;
+// 赞
 - (void)didPraiseMoment:(MomentCell *)cell;
-//评论
-- (void)didRemarkMoment:(MomentCell *)cell;
-//查看全文/收起
+// 评论
+- (void)didAddComment:(MomentCell *)cell;
+// 查看全文/收起
 - (void)didSelectFullText:(MomentCell *)cell;
-//删除
+// 删除
 - (void)didDeleteMoment:(MomentCell *)cell;
-//点击高亮文字
-- (void)cell:(MomentCell *)cell didClickLinkText:(NSString *)linkText withType:(MLLinkType)type;
+// 选择评论
+- (void)didSelectComment:(Comment *)comment;
+// 点击高亮文字
+- (void)didClickLink:(MLLink *)link linkText:(NSString *)linkText momentCell:(MomentCell *)cell;
+
+@end
+
+
+//#### 评论
+@interface CommentCell : UITableViewCell <MLLinkLabelDelegate>
+
+// 内容Label
+@property (nonatomic,strong) MLLinkLabel *linkLabel;
+// 评论
+@property (nonatomic,strong) Comment *comment;
+// 点击评论高亮内容
+@property (nonatomic, copy) void (^didClickLink)(MLLink *link , NSString *linkText);
+
+// 获取行高
++ (CGFloat)commentCellHeightForMoment:(Comment *)comment;
 
 @end

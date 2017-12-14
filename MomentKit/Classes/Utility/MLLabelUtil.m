@@ -18,7 +18,7 @@ MLLinkLabel *kMLLinkLabel()
     _linkLabel.font = kComTextFont;
     _linkLabel.numberOfLines = 0;
     _linkLabel.linkTextAttributes = @{NSForegroundColorAttributeName:kHLTextColor};
-    _linkLabel.activeLinkTextAttributes = @{NSForegroundColorAttributeName:kHLTextColor,NSBackgroundColorAttributeName:[[UIColor lightGrayColor] colorWithAlphaComponent:0.7]};
+    _linkLabel.activeLinkTextAttributes = @{NSForegroundColorAttributeName:kHLTextColor,NSBackgroundColorAttributeName:kHLBgColor};
     _linkLabel.activeLinkToNilDelay = 0.3;
     return _linkLabel;
 }

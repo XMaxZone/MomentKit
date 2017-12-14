@@ -46,4 +46,29 @@
     }
 }
 
+#pragma mark - 获取单张图片的实际size
++ (CGSize)getSingleSize:(CGSize)singleSize
+{
+    CGFloat max_width = kWidth-150;
+    CGFloat max_height = kWidth-130;
+    CGFloat image_width = singleSize.width;
+    CGFloat image_height = singleSize.height;
+    
+    CGFloat result_width = 0;
+    CGFloat result_height = 0;
+    if (image_height/image_width > 3.0) {
+        result_height = max_height;
+        result_width = result_height/2;
+    }  else  {
+        result_width = max_width;
+        result_height = max_width*image_height/image_width;
+        if (result_height > max_height) {
+            result_height = max_height;
+            result_width = max_height*image_width/image_height;
+        }
+    }
+    return CGSizeMake(result_width, result_height);
+}
+
+
 @end
