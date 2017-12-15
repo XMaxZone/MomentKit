@@ -81,6 +81,20 @@ CGFloat maxLimitHeight = 0;
     // 评论
     [self.contentView addSubview:self.bgImageView];
     [self.contentView addSubview:self.tableView];
+    // 操作视图
+    _menuView = [[MMOperateMenuView alloc] initWithFrame:CGRectZero];
+    __weak typeof(self) weakSelf = self;
+    [_menuView setLikeMoment:^{
+        if ([weakSelf.delegate respondsToSelector:@selector(didLikeMoment:)]) {
+            [weakSelf.delegate didLikeMoment:weakSelf];
+        }
+    }];
+    [_menuView setCommentMoment:^{
+        if ([weakSelf.delegate respondsToSelector:@selector(didAddComment:)]) {
+            [weakSelf.delegate didAddComment:weakSelf];
+        }
+    }];
+    [self.contentView addSubview:_menuView];
     // 最大高度限制
     maxLimitHeight = _linkLabel.font.lineHeight * 6;
 }
@@ -196,7 +210,9 @@ CGFloat maxLimitHeight = 0;
     }
     _deleteBtn.frame = CGRectMake(_timeLab.right + 25, _timeLab.top, 50, kTimeLabelH);
     bottom = _timeLab.bottom + kPaddingValue;
-    
+    // 操作视图
+    _menuView.frame = CGRectMake(kWidth-kOperateWidth-10, _timeLab.top-(kOperateHeight-kTimeLabelH)/2, kOperateWidth, kOperateHeight);
+    _menuView.show = NO;
     // 处理评论/赞
     self.tableView.frame = CGRectZero;
     self.bgImageView.frame = CGRectZero;

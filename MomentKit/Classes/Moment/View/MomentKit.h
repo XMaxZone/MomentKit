@@ -8,8 +8,12 @@
 
 // 头像视图的宽、高
 #define kFaceWidth          40
+// 操作按钮的宽度
+#define kOperateBtWidth     30
 // 操作视图的高度
-#define kOptionHeight       20
+#define kOperateHeight      38
+// 操作视图的高度
+#define kOperateWidth       200
 // 名字视图高度
 #define kNameLabelH         20
 // 时间视图高度
@@ -37,7 +41,7 @@
 // 图片间距
 #define kImagePadding       5
 // 图片宽度
-#define kImageWidth         (kTextWidth-kImagePadding*2)/3
+#define kImageWidth         75
 // 全文/收起按钮高度
 #define kMoreLabHeight      20
 // 全文/收起按钮宽度

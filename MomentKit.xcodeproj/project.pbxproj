@@ -64,9 +64,9 @@
 		8B3BA1581FDFE91400407D25 /* MomentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B3BA13E1FDFE91400407D25 /* MomentViewController.m */; };
 		8B3BA1591FDFE91400407D25 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B3BA1411FDFE91400407D25 /* Comment.m */; };
 		8B3BA15A1FDFE91400407D25 /* Moment.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B3BA1431FDFE91400407D25 /* Moment.m */; };
-		8B3BA1601FDFE91400407D25 /* MMRefreshHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B3BA1501FDFE91400407D25 /* MMRefreshHeadView.m */; };
 		8B3BA16E1FDFEAFD00407D25 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B3BA16D1FDFEAFD00407D25 /* Utility.m */; };
 		8BD194131FE105AE00062E0A /* MLLabelUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BD194121FE105AE00062E0A /* MLLabelUtil.m */; };
+		8BE52D151FE35CC200B305C2 /* MMOperateMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BE52D141FE35CC200B305C2 /* MMOperateMenuView.m */; };
 		8BF765761FE2270C0064EC94 /* MomentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF765751FE2270C0064EC94 /* MomentCell.m */; };
 		8BF765791FE2272A0064EC94 /* MMImageListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF765781FE2272A0064EC94 /* MMImageListView.m */; };
 		8BF7657C1FE227450064EC94 /* MMImagePreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BF7657B1FE227450064EC94 /* MMImagePreviewView.m */; };
@@ -139,14 +139,14 @@
 		8B3BA1411FDFE91400407D25 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
 		8B3BA1421FDFE91400407D25 /* Moment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Moment.h; sourceTree = "<group>"; };
 		8B3BA1431FDFE91400407D25 /* Moment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Moment.m; sourceTree = "<group>"; };
-		8B3BA14F1FDFE91400407D25 /* MMRefreshHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMRefreshHeadView.h; sourceTree = "<group>"; };
-		8B3BA1501FDFE91400407D25 /* MMRefreshHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMRefreshHeadView.m; sourceTree = "<group>"; };
 		8B3BA16B1FDFEA2400407D25 /* MomentKit-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MomentKit-Prefix.pch"; sourceTree = "<group>"; };
 		8B3BA16C1FDFEAFD00407D25 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
 		8B3BA16D1FDFEAFD00407D25 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
 		8BD194111FE105AE00062E0A /* MLLabelUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLLabelUtil.h; sourceTree = "<group>"; };
 		8BD194121FE105AE00062E0A /* MLLabelUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLLabelUtil.m; sourceTree = "<group>"; };
 		8BD194151FE1086C00062E0A /* MomentKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MomentKit.h; sourceTree = "<group>"; };
+		8BE52D131FE35CC200B305C2 /* MMOperateMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMOperateMenuView.h; sourceTree = "<group>"; };
+		8BE52D141FE35CC200B305C2 /* MMOperateMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MMOperateMenuView.m; sourceTree = "<group>"; };
 		8BF765741FE2270C0064EC94 /* MomentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MomentCell.h; sourceTree = "<group>"; };
 		8BF765751FE2270C0064EC94 /* MomentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MomentCell.m; sourceTree = "<group>"; };
 		8BF765771FE2272A0064EC94 /* MMImageListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMImageListView.h; sourceTree = "<group>"; };
@@ -354,8 +354,8 @@
 				8BF765781FE2272A0064EC94 /* MMImageListView.m */,
 				8BF7657A1FE227450064EC94 /* MMImagePreviewView.h */,
 				8BF7657B1FE227450064EC94 /* MMImagePreviewView.m */,
-				8B3BA14F1FDFE91400407D25 /* MMRefreshHeadView.h */,
-				8B3BA1501FDFE91400407D25 /* MMRefreshHeadView.m */,
+				8BE52D131FE35CC200B305C2 /* MMOperateMenuView.h */,
+				8BE52D141FE35CC200B305C2 /* MMOperateMenuView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -558,9 +558,9 @@
 				8B3BA15A1FDFE91400407D25 /* Moment.m in Sources */,
 				8BF7657C1FE227450064EC94 /* MMImagePreviewView.m in Sources */,
 				8B3BA1351FDFE72300407D25 /* MainViewController.m in Sources */,
+				8BE52D151FE35CC200B305C2 /* MMOperateMenuView.m in Sources */,
 				8B3BA0B01FDFE1BF00407D25 /* main.m in Sources */,
 				8B3BA1591FDFE91400407D25 /* Comment.m in Sources */,
-				8B3BA1601FDFE91400407D25 /* MMRefreshHeadView.m in Sources */,
 				8BF765761FE2270C0064EC94 /* MomentCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -687,7 +687,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/MomentKit/MomentKit-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ismarter.ZhiFa;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lea.MomentKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -702,7 +702,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/MomentKit/MomentKit-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.ismarter.ZhiFa;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lea.MomentKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

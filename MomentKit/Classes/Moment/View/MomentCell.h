@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MMImageListView.h"
 #import "Moment.h"
 #import "Comment.h"
+#import "MMOperateMenuView.h"
+#import "MMImageListView.h"
 
 //#### 动态
 
@@ -42,6 +43,9 @@
 @property (nonatomic,strong) MLLinkLabel *likeLabel;
 // 分割线
 @property (nonatomic,strong) UIView *line;
+// 分割线
+@property (nonatomic,strong) MMOperateMenuView *menuView;
+
 
 // 动态
 @property (nonatomic, strong) Moment *moment;
@@ -60,7 +64,7 @@
 // 点击用户头像
 - (void)didClickHead:(MomentCell *)cell;
 // 赞
-- (void)didPraiseMoment:(MomentCell *)cell;
+- (void)didLikeMoment:(MomentCell *)cell;
 // 评论
 - (void)didAddComment:(MomentCell *)cell;
 // 查看全文/收起

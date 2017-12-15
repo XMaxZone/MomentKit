@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '1F1AE33454C8CAAD5F929223D2841AE7'
-               BlueprintName = 'Pods-MomentKit'
+               BlueprintIdentifier = '418EC119A828A9AB1F6502735C40FA52'
+               BlueprintName = 'UUButton'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libPods-MomentKit.a'>
+               BuildableName = 'libUUButton.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

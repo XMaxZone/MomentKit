@@ -4,5 +4,6 @@ target 'MomentKit' do
     
     pod "MLLabel"
     pod "MMWebView"
+    pod "UUButton"
 
 end

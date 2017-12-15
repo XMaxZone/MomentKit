@@ -156,7 +156,7 @@
     NSLog(@"击用户头像");
 }
 // 赞
-- (void)didPraiseMoment:(MomentCell *)cell
+- (void)didLikeMoment:(MomentCell *)cell
 {
     NSLog(@"点赞");
 }
@@ -224,6 +224,16 @@
 {
     CGFloat height = [MomentCell momentCellHeightForMoment:[self.momentList objectAtIndex:indexPath.row]];
     return height;
+}
+
+#pragma mark - UITableViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    NSIndexPath *indexPath =  [self.tableView indexPathForRowAtPoint:CGPointMake(scrollView.contentOffset.x, scrollView.contentOffset.y)];
+    MomentCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    cell.menuView.show = NO;
+    
+    NSLog(@"%d",indexPath.row);
 }
 
 #pragma mark -
