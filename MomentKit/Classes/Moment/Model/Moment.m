@@ -10,9 +10,4 @@
 
 @implementation Moment
 
-+ (NSArray *)transients
-{
-    return [NSArray arrayWithObjects:@"isFullText",nil];
-}
-
 @end

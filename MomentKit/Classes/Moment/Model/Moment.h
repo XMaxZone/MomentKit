@@ -5,6 +5,8 @@
 //  Created by LEA on 2017/12/12.
 //  Copyright © 2017年 LEA. All rights reserved.
 //
+//  动态Model
+//
 
 #import <Foundation/Foundation.h>
 

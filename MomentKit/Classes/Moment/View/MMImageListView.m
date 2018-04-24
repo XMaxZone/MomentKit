@@ -80,7 +80,7 @@
     _previewView.pageNum = count;
     _previewView.scrollView.contentSize = CGSizeMake(_previewView.width*count, _previewView.height);
     // 添加图片
-    MMScrollView *imageView = nil;
+    MMImageView *imageView = nil;
     for (NSInteger i = 0; i < count; i++)
     {
         if (i > 8) {

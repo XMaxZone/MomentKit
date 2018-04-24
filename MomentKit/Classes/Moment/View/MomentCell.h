@@ -15,7 +15,7 @@
 //#### 动态
 
 @protocol MomentCellDelegate;
-@interface MomentCell : UITableViewCell <UITableViewDelegate,UITableViewDataSource,MLLinkLabelDelegate>
+@interface MomentCell : UITableViewCell <MLLinkLabelDelegate>
 
 // 头像
 @property (nonatomic, strong) UIImageView *headImageView;
@@ -33,18 +33,12 @@
 @property (nonatomic, strong) MLLinkLabel *linkLabel;
 // 图片
 @property (nonatomic, strong) MMImageListView *imageListView;
-// 显示赞和评论的视图
-@property (nonatomic, strong) UITableView *tableView;
+// 赞和评论视图
+@property (nonatomic, strong) UIView *commentView;
 // 赞和评论视图背景
-@property (nonatomic,strong) UIImageView *bgImageView;
-// 表格头
-@property (nonatomic,strong) UIView *tableHeadView;
-// 赞
-@property (nonatomic,strong) MLLinkLabel *likeLabel;
-// 分割线
-@property (nonatomic,strong) UIView *line;
-// 分割线
-@property (nonatomic,strong) MMOperateMenuView *menuView;
+@property (nonatomic, strong) UIImageView *bgImageView;
+// 操作视图
+@property (nonatomic, strong) MMOperateMenuView *menuView;
 
 
 // 动态
@@ -80,16 +74,17 @@
 
 
 //#### 评论
-@interface CommentCell : UITableViewCell <MLLinkLabelDelegate>
+@interface CommentLabel : UIView <MLLinkLabelDelegate>
 
 // 内容Label
 @property (nonatomic,strong) MLLinkLabel *linkLabel;
 // 评论
 @property (nonatomic,strong) Comment *comment;
 // 点击评论高亮内容
-@property (nonatomic, copy) void (^didClickLink)(MLLink *link , NSString *linkText);
-
-// 获取行高
-+ (CGFloat)commentCellHeightForMoment:(Comment *)comment;
+@property (nonatomic, copy) void (^didClickLinkText)(MLLink *link , NSString *linkText);
+// 点击评论
+@property (nonatomic, copy) void (^didClickText)(Comment *comment);
 
 @end
+
+

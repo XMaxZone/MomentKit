@@ -26,14 +26,12 @@
 #define kTextFont           [UIFont systemFontOfSize:15.0]
 // 内容视图宽度
 #define kTextWidth          (kWidth-60-25)
-// 评论视图宽度
-#define kComWidth           (kWidth-60-15)
 // 评论字体
 #define kComTextFont        [UIFont systemFontOfSize:14.0]
 // 评论高亮字体
 #define kComHLTextFont      [UIFont boldSystemFontOfSize:14.0]
 // 主色调高亮颜色
-#define kHLTextColor        [UIColor colorWithRed:0.31 green:0.39 blue:0.59 alpha:1.0]
+#define kHLTextColor        [UIColor colorWithRed:0.28 green:0.35 blue:0.54 alpha:1.0]
 // 正文高亮颜色
 #define kLinkTextColor      [UIColor colorWithRed:0.09 green:0.49 blue:0.99 alpha:1.0]
 // 按住背景颜色

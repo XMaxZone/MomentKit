@@ -72,15 +72,16 @@ CGFloat maxLimitHeight = 0;
     // 删除视图
     _deleteBtn = [[UIButton alloc] init];
     _deleteBtn.titleLabel.font = [UIFont systemFontOfSize:13.0f];
-    _deleteBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     _deleteBtn.backgroundColor = [UIColor clearColor];
     [_deleteBtn setTitle:@"删除" forState:UIControlStateNormal];
     [_deleteBtn setTitleColor:kHLTextColor forState:UIControlStateNormal];
     [_deleteBtn addTarget:self action:@selector(deleteMoment:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_deleteBtn];
-    // 评论
-    [self.contentView addSubview:self.bgImageView];
-    [self.contentView addSubview:self.tableView];
+    // 评论视图
+    _bgImageView = [[UIImageView alloc] init];
+    [self.contentView addSubview:_bgImageView];
+    _commentView = [[UIView alloc] init];
+    [self.contentView addSubview:_commentView];
     // 操作视图
     _menuView = [[MMOperateMenuView alloc] initWithFrame:CGRectZero];
     __weak typeof(self) weakSelf = self;
@@ -97,59 +98,6 @@ CGFloat maxLimitHeight = 0;
     [self.contentView addSubview:_menuView];
     // 最大高度限制
     maxLimitHeight = _linkLabel.font.lineHeight * 6;
-}
-
-#pragma mark - Getter
-- (UITableView *)tableView
-{
-    if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero];
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _tableView.separatorInset = UIEdgeInsetsZero;
-        _tableView.backgroundColor = [UIColor clearColor];
-        _tableView.dataSource = self;
-        _tableView.delegate = self;
-        _tableView.scrollEnabled = NO;
-        _tableView.tableFooterView = [UIView new];
-    }
-    return _tableView;
-}
-
-- (UIView *)tableHeadView
-{
-    if (!_tableHeadView) {
-        _tableHeadView = [[UIView alloc] initWithFrame:CGRectZero];
-        _tableHeadView.backgroundColor = [UIColor clearColor];
-        [_tableHeadView addSubview:self.likeLabel];
-        [_tableHeadView addSubview:self.line];
-    }
-    return _tableHeadView;
-}
-
-- (MLLinkLabel *)likeLabel
-{
-    if (!_likeLabel) {
-        _likeLabel = kMLLinkLabel();
-        _likeLabel.delegate = self;
-    }
-    return _likeLabel;
-}
-
-- (UIView *)line
-{
-    if (!_line) {
-        _line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.width, 0.5)];
-        _line.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.3];
-    }
-    return _line;
-}
-
-- (UIImageView *)bgImageView
-{
-    if (!_bgImageView) {
-        _bgImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-    }
-    return _bgImageView;
 }
 
 #pragma mark - setter
@@ -208,35 +156,59 @@ CGFloat maxLimitHeight = 0;
         _locationLab.hidden = YES;
         _timeLab.frame = CGRectMake(_nameLab.left, bottom, textW, kTimeLabelH);
     }
-    _deleteBtn.frame = CGRectMake(_timeLab.right + 25, _timeLab.top, 50, kTimeLabelH);
+    _deleteBtn.frame = CGRectMake(_timeLab.right + 25, _timeLab.top, 30, kTimeLabelH);
     bottom = _timeLab.bottom + kPaddingValue;
     // 操作视图
     _menuView.frame = CGRectMake(kWidth-kOperateWidth-10, _timeLab.top-(kOperateHeight-kTimeLabelH)/2, kOperateWidth, kOperateHeight);
     _menuView.show = NO;
     // 处理评论/赞
-    self.tableView.frame = CGRectZero;
-    self.bgImageView.frame = CGRectZero;
-    self.bgImageView.image = nil;
-    self.tableView.tableHeaderView = nil;
+    _commentView.frame = CGRectZero;
+    _bgImageView.frame = CGRectZero;
+    _bgImageView.image = nil;
+    [_commentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     // 处理赞
+    CGFloat top = 0;
+    CGFloat width = kWidth-kRightMargin-_nameLab.left;
     if (moment.praiseNameList.length) {
-        self.likeLabel.attributedText = kMLLinkLabelAttributedText(moment.praiseNameList);
-        CGSize attrStrSize = [self.likeLabel preferredSizeWithMaxWidth:kTextWidth];
-        self.tableHeadView.frame = CGRectMake(0, 0, kComWidth, attrStrSize.height + 15);
-        self.likeLabel.frame = CGRectMake(5, 8, attrStrSize.width, attrStrSize.height);
-        self.line.top = self.likeLabel.bottom + 7;
-        self.tableView.tableHeaderView = self.tableHeadView;
+        MLLinkLabel *likeLabel = kMLLinkLabel();
+        likeLabel.delegate = self;
+        likeLabel.attributedText = kMLLinkLabelAttributedText(moment.praiseNameList);
+        CGSize attrStrSize = [likeLabel preferredSizeWithMaxWidth:kTextWidth];
+        likeLabel.frame = CGRectMake(5, 8, attrStrSize.width, attrStrSize.height);
+        [_commentView addSubview:likeLabel];
+        // 分割线
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, likeLabel.bottom + 7, width, 0.5)];
+        line.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.3];
+        [_commentView addSubview:line];
+        // 更新
+        top = attrStrSize.height + 15;
     }
     // 处理评论
-    if ([moment.commentList count]) {
-        [self.tableView reloadData];
+    NSInteger count = [moment.commentList count];
+    if (count > 0) {
+        for (NSInteger i = 0; i < count; i ++) {
+            CommentLabel *label = [[CommentLabel alloc] initWithFrame:CGRectMake(0, top, width, 0)];
+            label.comment = [moment.commentList objectAtIndex:i];
+            [label setDidClickText:^(Comment *comment) {
+                if ([self.delegate respondsToSelector:@selector(didSelectComment:)]) {
+                    [self.delegate didSelectComment:comment];
+                }
+            }];
+            [label setDidClickLinkText:^(MLLink *link, NSString *linkText) {
+                if ([self.delegate respondsToSelector:@selector(didClickLink:linkText:momentCell:)]) {
+                    [self.delegate didClickLink:link linkText:linkText momentCell:self];
+                }
+            }];
+            [_commentView addSubview:label];
+            // 更新
+            top += label.height;
+        }
     }
     // 更新UI
-    CGFloat contentHeight = self.tableView.contentSize.height;
-    if (contentHeight > 0) {
-        self.bgImageView.frame = CGRectMake(_nameLab.left, bottom, kWidth-kRightMargin-_nameLab.left, contentHeight + kArrowHeight);
-        self.bgImageView.image = [[UIImage imageNamed:@"comment_bg"] stretchableImageWithLeftCapWidth:40 topCapHeight:30];
-        self.tableView.frame = CGRectMake(_nameLab.left, bottom + kArrowHeight, kWidth-kRightMargin-_nameLab.left, contentHeight);
+    if (top > 0) {
+        _bgImageView.frame = CGRectMake(_nameLab.left, bottom, width, top + kArrowHeight);
+        _bgImageView.image = [[UIImage imageNamed:@"comment_bg"] stretchableImageWithLeftCapWidth:40 topCapHeight:30];
+        _commentView.frame = CGRectMake(_nameLab.left, bottom + kArrowHeight, width, top);
     }
 }
 
@@ -283,9 +255,15 @@ CGFloat maxLimitHeight = 0;
         height += [linkLab preferredSizeWithMaxWidth:kTextWidth].height + 15;
     }
     // 评论
-    for (Comment *com in moment.commentList) {
+    NSInteger count = [moment.commentList count];
+    if (count > 0) {
         addH = kArrowHeight;
-        height += [CommentCell commentCellHeightForMoment:com];
+        MLLinkLabel *linkLab = kMLLinkLabel();
+        for (NSInteger i = 0; i < count; i ++) {
+            linkLab.attributedText = kMLLinkLabelAttributedText([moment.commentList objectAtIndex:i]);
+            CGFloat commentH = [linkLab preferredSizeWithMaxWidth:kTextWidth].height + 5;
+            height += commentH;
+        }
     }
     if (addH == 0) {
         height -= kPaddingValue;
@@ -338,67 +316,18 @@ CGFloat maxLimitHeight = 0;
         [self.delegate didClickLink:link linkText:linkText momentCell:self];
     }
 }
-
-#pragma mark - UITableViewDataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return [self.moment.commentList count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *identifier = @"CommentCell";
-    CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (cell == nil) {
-        cell = [[CommentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        cell.selectionStyle = UITableViewCellSelectionStyleGray;
-        cell.backgroundColor = [UIColor clearColor];
-    }
-    cell.comment = [self.moment.commentList objectAtIndex:indexPath.row];
-    // 点击评论高亮
-    [cell setDidClickLink:^(MLLink *link, NSString *linkText){
-        if ([self.delegate respondsToSelector:@selector(didClickLink:linkText:momentCell:)]) {
-            [self.delegate didClickLink:link linkText:linkText momentCell:self];
-        }
-    }];
-    return cell;
-}
-
-#pragma mark - UITableViewDelegate
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    Comment *comment = [self.moment.commentList objectAtIndex:indexPath.row];
-    return [CommentCell commentCellHeightForMoment:comment];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-    // 选择评论
-    Comment *comment = [self.moment.commentList objectAtIndex:indexPath.row];
-    if ([self.delegate respondsToSelector:@selector(didSelectComment:)]) {
-        [self.delegate didSelectComment:comment];
-    }
-}
-
 @end
 
 #pragma mark - ------------------ 评论 ------------------
-@implementation CommentCell
+@implementation CommentLabel
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (instancetype)initWithFrame:(CGRect)frame
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self = [super initWithFrame:frame];
     if (self) {
         _linkLabel = kMLLinkLabel();
         _linkLabel.delegate = self;
-        [self.contentView addSubview:_linkLabel];
+        [self addSubview:_linkLabel];
     }
     return self;
 }
@@ -410,23 +339,37 @@ CGFloat maxLimitHeight = 0;
     _linkLabel.attributedText = kMLLinkLabelAttributedText(comment);
     CGSize attrStrSize = [_linkLabel preferredSizeWithMaxWidth:kTextWidth];
     _linkLabel.frame = CGRectMake(5, 3, attrStrSize.width, attrStrSize.height);
+    self.height = attrStrSize.height + 5;
 }
 
 #pragma mark - MLLinkLabelDelegate
 - (void)didClickLink:(MLLink *)link linkText:(NSString *)linkText linkLabel:(MLLinkLabel *)linkLabel
 {
-    if (self.didClickLink) {
-        self.didClickLink(link,linkText);
+    if (self.didClickLinkText) {
+        self.didClickLinkText(link,linkText);
     }
 }
 
-#pragma mark - 获取行高
-+ (CGFloat)commentCellHeightForMoment:(Comment *)comment
+#pragma mark - 点击
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    MLLinkLabel *linkLab = kMLLinkLabel();
-    linkLab.attributedText = kMLLinkLabelAttributedText(comment);
-    CGFloat height = [linkLab preferredSizeWithMaxWidth:kTextWidth].height + 5;
-    return height;
+    self.backgroundColor = kHLBgColor;
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    dispatch_time_t when = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC));
+    dispatch_after(when, dispatch_get_main_queue(), ^{
+        self.backgroundColor = [UIColor clearColor];
+        if (self.didClickText) {
+            self.didClickText(_comment);
+        }
+    });
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    self.backgroundColor = [UIColor clearColor];
 }
 
 @end

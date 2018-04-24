@@ -185,7 +185,7 @@
 // 选择评论
 - (void)didSelectComment:(Comment *)comment
 {
-    NSLog(@"选择评论");
+    NSLog(@"点击评论");
 }
 // 点击高亮文字
 - (void)didClickLink:(MLLink *)link linkText:(NSString *)linkText momentCell:(MomentCell *)cell
@@ -232,8 +232,6 @@
     NSIndexPath *indexPath =  [self.tableView indexPathForRowAtPoint:CGPointMake(scrollView.contentOffset.x, scrollView.contentOffset.y)];
     MomentCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
     cell.menuView.show = NO;
-    
-    NSLog(@"%d",indexPath.row);
 }
 
 #pragma mark -
